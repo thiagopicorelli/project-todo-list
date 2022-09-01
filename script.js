@@ -3,6 +3,7 @@ const addButton = document.getElementById('criar-tarefa');
 const list = document.getElementById('lista-tarefas');
 const apagarButton = document.getElementById('apaga-tudo');
 const finalizadosButton = document.getElementById('remover-finalizados');
+const salvarButton = document.getElementById('salvar-tarefas');
 
 let listElements;
 let listCount = 0;
@@ -65,3 +66,25 @@ function apagarFinalizados() {
 }
 
 finalizadosButton.addEventListener('click', apagarFinalizados);
+
+function salvar() {
+  const saveObj = {
+    tarefas: [],
+    completed: []
+  }
+
+  for (let i = 0; i < listCount; i += 1) {
+    saveObj.tarefas.push(listElements[i].innerHTML);
+    if(listElements[i].className === 'completed') {
+      saveObj.tarefas.push(true);
+    } else {
+      saveObj.completed.push(false);
+    }
+  }
+
+  localStorage.lista = JSON.stringify(saveObj);
+}
+
+salvarButton.addEventListener('click', salvar);
+
+
