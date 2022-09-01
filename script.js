@@ -110,3 +110,12 @@ function carregarTarefas() {
 }
 
 carregarTarefas();
+
+/*function mover() {
+  if (listElements[selected].className !== 'completed') {
+    return;
+  }
+
+
+
+}*/
