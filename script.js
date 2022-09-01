@@ -43,6 +43,25 @@ addButton.addEventListener('click', criarTarefa);
 
 function apagarTodos() {
   list.innerHTML = '';
+  selected = 0;
 }
 
 apagarButton.addEventListener('click', apagarTodos);
+
+function apagarFinalizados() {
+  for (let i = 0; i < listCount; i += 1) {
+    if (listElements[i].className === 'completed') {
+      list.removeChild(listElements[i]);
+      listCount -= 1;
+      i -= 1;
+    }
+  }
+
+  for (let i = 0; i < listCount; i += 1) {
+    listElements[i].setAttribute('pos', i);
+  }
+
+  selected = 0;
+}
+
+finalizadosButton.addEventListener('click', apagarFinalizados);
