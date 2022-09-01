@@ -1,6 +1,8 @@
 const addInput = document.getElementById('texto-tarefa');
 const addButton = document.getElementById('criar-tarefa');
 const list = document.getElementById('lista-tarefas');
+const apagarButton = document.getElementById('apaga-tudo');
+const finalizadosButton = document.getElementById('remover-finalizados');
 
 let listElements;
 let listCount = 0;
@@ -38,3 +40,9 @@ function criarTarefa() {
 }
 
 addButton.addEventListener('click', criarTarefa);
+
+function apagarTodos() {
+  list.innerHTML = '';
+}
+
+apagarButton.addEventListener('click', apagarTodos);
