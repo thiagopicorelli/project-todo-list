@@ -7,9 +7,21 @@ let listCount = 0;
 let selected = 0;
 
 function selecionaItem(event) {
+  const pos = event.target.getAttribute('pos');
+
   listElements[selected].style.backgroundColor = 'transparent';
-  listElements[event.target.pos].style.backgroundColor = 'rgb(128, 128, 128)';
-  selected = event.target.getAttribute('pos');
+
+  if (selected !== pos) {
+    listElements[pos].style.backgroundColor = 'rgb(128, 128, 128)';
+    selected = pos;
+  } else {
+    if (listElements[selected].className === 'completed') {
+      listElements[selected].className = '';
+    } else {
+      listElements[selected].className = 'completed';
+    }
+    selected = 0;
+  }
 }
 
 function criarTarefa() {
