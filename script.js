@@ -27,24 +27,31 @@ function selecionaItem(event) {
   }
 }
 
-function criarTarefa() {
+function criarTarefa(str, completed) {
   const tarefa = document.createElement('li');
-  tarefa.innerHTML = addInput.value;
+  tarefa.innerHTML = str;
   tarefa.setAttribute('pos', listCount);
+  if (completed) {
+    tarefa.setAttribute('class', 'completed');
+  }
   tarefa.addEventListener('click', selecionaItem);
 
   list.appendChild(tarefa);
-  listElements = document.getElementsByTagName('li');
   listCount += 1;
+}
 
+function criarTarefaInput() {
+  criarTarefa(addInput.value, false);
+  listElements = document.getElementsByTagName('li');
   addInput.value = '';
 }
 
-addButton.addEventListener('click', criarTarefa);
+addButton.addEventListener('click', criarTarefaInput);
 
 function apagarTodos() {
   list.innerHTML = '';
   selected = 0;
+  listCount = 0;
 }
 
 apagarButton.addEventListener('click', apagarTodos);
@@ -70,13 +77,13 @@ finalizadosButton.addEventListener('click', apagarFinalizados);
 function salvar() {
   const saveObj = {
     tarefas: [],
-    completed: []
-  }
+    completed: [],
+  };
 
   for (let i = 0; i < listCount; i += 1) {
     saveObj.tarefas.push(listElements[i].innerHTML);
-    if(listElements[i].className === 'completed') {
-      saveObj.tarefas.push(true);
+    if (listElements[i].className === 'completed') {
+      saveObj.completed.push(true);
     } else {
       saveObj.completed.push(false);
     }
@@ -87,4 +94,19 @@ function salvar() {
 
 salvarButton.addEventListener('click', salvar);
 
+function carregarTarefas() {
+  if (localStorage.lista === undefined) {
+    return;
+  }
 
+  const lista = JSON.parse(localStorage.lista);
+
+  for (let i = 0; i < lista.tarefas.length; i += 1) {
+    criarTarefa(lista.tarefas[i], lista.completed[i]);
+  }
+
+  listCount = lista.tarefas.length;
+  listElements = document.getElementsByTagName('li');
+}
+
+carregarTarefas();
