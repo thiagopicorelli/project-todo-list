@@ -15,7 +15,7 @@ let listCount = 0;
 let selected = 0;
 
 function selecionaItem(pos) {
-  listElements[selected].style.backgroundColor = 'transparent';
+  listElements[selected].style.backgroundColor = 'white';
 
   if (selected !== pos) {
     listElements[pos].style.backgroundColor = selectedColor;
