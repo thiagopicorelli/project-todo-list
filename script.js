@@ -1,21 +1,23 @@
+const selectedColor = 'rgb(128, 128, 128)';
+
 const addInput = document.getElementById('texto-tarefa');
 const addButton = document.getElementById('criar-tarefa');
 const list = document.getElementById('lista-tarefas');
 const apagarButton = document.getElementById('apaga-tudo');
 const finalizadosButton = document.getElementById('remover-finalizados');
 const salvarButton = document.getElementById('salvar-tarefas');
+const cimaButton = document.getElementById('mover-cima');
+const baixoButton = document.getElementById('mover-baixo');
 
 let listElements;
 let listCount = 0;
 let selected = 0;
 
-function selecionaItem(event) {
-  const pos = event.target.getAttribute('pos');
-
+function selecionaItem(pos) {
   listElements[selected].style.backgroundColor = 'transparent';
 
   if (selected !== pos) {
-    listElements[pos].style.backgroundColor = 'rgb(128, 128, 128)';
+    listElements[pos].style.backgroundColor = selectedColor;
     selected = pos;
   } else {
     if (listElements[selected].className === 'completed') {
@@ -34,7 +36,9 @@ function criarTarefa(str, completed) {
   if (completed) {
     tarefa.setAttribute('class', 'completed');
   }
-  tarefa.addEventListener('click', selecionaItem);
+  tarefa.addEventListener('click', (event) => {
+    selecionaItem(event.target.getAttribute('pos'));
+  });
 
   list.appendChild(tarefa);
   listCount += 1;
@@ -111,11 +115,25 @@ function carregarTarefas() {
 
 carregarTarefas();
 
-/*function mover() {
-  if (listElements[selected].className !== 'completed') {
+function mover(direction) {
+  if (listElements[selected].style.backgroundColor !== selectedColor) {
     return;
   }
 
+  const nextSelected = parseInt(selected, 10) + direction;
 
+  if (nextSelected < 0 || nextSelected >= listCount) {
+    return;
+  }
+  const tarefa = listElements[selected].innerHTML;
+  const completed = listElements[selected].className;
+  listElements[selected].innerHTML = listElements[nextSelected].innerHTML;
+  listElements[selected].className = listElements[nextSelected].className;
+  listElements[nextSelected].innerHTML = tarefa;
+  listElements[nextSelected].className = completed;
 
-}*/
+  selecionaItem(nextSelected);
+}
+
+cimaButton.addEventListener('click', () => { mover(-1); });
+baixoButton.addEventListener('click', () => { mover(1); });
