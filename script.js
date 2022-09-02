@@ -8,6 +8,7 @@ const finalizadosButton = document.getElementById('remover-finalizados');
 const salvarButton = document.getElementById('salvar-tarefas');
 const cimaButton = document.getElementById('mover-cima');
 const baixoButton = document.getElementById('mover-baixo');
+const removerButton = document.getElementById('remover-selecionado');
 
 let listElements;
 let listCount = 0;
@@ -68,6 +69,8 @@ function apagarFinalizados() {
       i -= 1;
     }
   }
+
+  listElements = document.getElementsByTagName('li');
 
   for (let i = 0; i < listCount; i += 1) {
     listElements[i].setAttribute('pos', i);
@@ -137,3 +140,20 @@ function mover(direction) {
 
 cimaButton.addEventListener('click', () => { mover(-1); });
 baixoButton.addEventListener('click', () => { mover(1); });
+
+function removerSelecionado() {
+  if (listElements[selected].style.backgroundColor !== selectedColor) {
+    return;
+  }
+
+  list.removeChild(listElements[selected]);
+  listElements = document.getElementsByTagName('li');
+  listCount -= 1;
+  for (let i = selected - 1; i < listCount; i += 1) {
+    listElements[i].setAttribute('pos', i);
+  }
+
+  selected = 0;
+}
+
+removerButton.addEventListener('click', removerSelecionado);
